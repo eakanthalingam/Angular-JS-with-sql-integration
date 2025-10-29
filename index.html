@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp">
+<head>
+  <meta charset="UTF-8">
+  <title>JACSICE Student Database Management</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #2193b0, #6dd5ed);
+      color: #fff;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px #000;
+    }
+    .form-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      width: 400px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 8px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .add { background: #4CAF50; color: #fff; }
+    .view { background: #2196F3; color: #fff; }
+    .reset { background: #f39c12; color: #fff; }
+    .exit { background: #e74c3c; color: #fff; }
+    button:hover { transform: scale(1.1); }
+  </style>
+</head>
+<body ng-controller="studentCtrl">
+
+  <h1>JACSICE Student Database Management</h1>
+
+  <div class="form-container">
+    <form ng-submit="addStudent()">
+      <input type="text" ng-model="student.roll_no" placeholder="Roll Number" required><br>
+      <input type="text" ng-model="student.name" placeholder="Name" required><br>
+      <input type="text" ng-model="student.department" placeholder="Department" required><br>
+      <input type="email" ng-model="student.email" placeholder="Email" required><br>
+      <input type="text" ng-model="student.phone" placeholder="Phone" required><br>
+
+      <button type="submit" class="add">Add</button>
+      <button type="button" class="view" onclick="window.location.href='view.php'">View</button>
+      <button type="reset" class="reset">Reset</button>
+      <button type="button" class="exit" onclick="window.close()">Exit</button>
+    </form>
+  </div>
+
+  <script>
+    var app = angular.module("studentApp", []);
+    app.controller("studentCtrl", function($scope, $http) {
+      $scope.student = {};
+      $scope.addStudent = function() {
+        $http.post("add.php", $scope.student).then(function(response) {
+          alert(response.data);
+          $scope.student = {};
+        });
+      };
+    });
+  </script>
+
+</body>
+</html>
